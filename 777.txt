@@ -1,0 +1,774 @@
+2024-06-20
+maven-compiler-plugin插件每个模块都有
+如果将spring-boot-starter-parent依赖作为父依赖，则自动有spring-boot-maven-plugin插件并有repackage属性(打非可依赖包)，一般单个模块的小项目这样使用。
+多模块的项目一般不将spring-boot-starter-parent依赖作为父依赖，要打包的模块单独写spring-boot-maven-plugin插件和repackage属性。
+如果要打war包添加maven-war-plugin插件设置xml为false属性。
+
+2024-06-06
+netstat -tulpn | grep pid
+lsof -i -P -n | grep LISTEN | grep pid
+nginx启动后的进程号(pid) nginx.pid文件在哪，是配置在nginx的配置文件中的。
+lsof -i -P -n | grep LISTEN | grep nginx的pid 可以查看nginx监听的端口号。
+cd /proc/pid，就是应用运行时目录     查看公网ip: curl ipinfo.io
+
+2024-06-01
+@MapperScan和@Mapper注解同时存在，且不同包@Mapper会失效
+tellhow-db依赖中mybatis-plus配置写了@MapperScan导致@Mapper全部失效。
+进入docker容器: docker exec -it 容器名/容器id bash
+git clone -b 分支名 url 表示拉取指定分支代码
+
+2024-05-20
+不能点击请求之后在调用wx.shareFileMessage,否则报错fail can only be invoked by user
+uni.getFileSystemManager()可以处理文件流。
+
+2024-05-10
+vim选中所有 ggvG命令
+electron依赖安装问题：设置electron镜像源就可以
+注意npm的缓存～/.npm/，和~/Library/Caches/的缓存。
+
+2024-04-25
+mysql的用户名和密码root 12345678
+nginx 403也有可能是文件夹没赋权限。
+
+2024-04-23
+配置文件中读取其他配置文件的东西，${x.x}。类中读取配置文件的东西通过配置类。然后注入类。
+Knife4j是swagger的封装。（导入依赖-加入相关配置-设置静态资源映射）
+设置静态资源映射：继承，重写方法addResourceHandlers设置资源位置addResourceLocations
+接口中的方法没有修饰符。注入都加private
+配置打印sql查询语句。配置mapper包为debug级别。
+
+2024-04-20
+nginx配置任意路径跳转任意网址（在server或location里配）：return https://www.baidu.com
+nginx配置任意路径返回状态码，及任意字符串：return 404; return 200 'hello';
+react命名规范：
+组件，或页面文件夹名都大写。
+jsx文件除了，index.jsx全都是大写。组件的引用也是大写。使用也是大写。
+vue命名规范：
+和react一样，vue使用的时候全部小写，驼峰用-分隔。react使用的时候不变。
+java包命名规范：小驼峰。
+
+2024-04-19
+web播放rtsp地址的监控摄像头：引入jsmpg.js，通过canvas
+new JSMpeg.Player(
+          'ws://' + serviceUrl + '/rtsp?url=' + btoa(camera[i].url), //后端的node服务。
+          {
+            canvas: document.getElementById('canvas' + camera[i].id),
+            loop: true, autopaly: true,
+          },
+);
+后端服务：（一个node项目）let RTSP2web = require('rtsp2web')
+new RTSP2web({port:10086,audio:false,transportType:'tcp', vf:false //关键参数})
+依赖：rtsp2web:"^3.1.7"   真实依赖就是3.1.7。
+
+2024-04-17
+一级路由的path以  '/xxx' 开头。二级路由的path没有 '/'
+要么就二级路由全写死，‘/一级/二级’
+react中二级路由是routes，vue是children。
+vue的路径中的redirect实现方式：
+在路由中配置redirect（写在最上面）对应的组件，在组件中重定向。
+react和vue的Layout布局的区别：
+react的路由是否Layout有一个属性去区别，而vue是以路由是否有children来区别。
+react的实现方式更易于理解，相当于一个路由可以有两个组件，而vue需要用子路由的
+方式去实现另一个组件。
+解决history刷新404问题：
+nginx配置try_files $uri $uri/ /index.html，或使用hash模式路由。
+
+2024-04-16
+搭建纯umi项目，配置在.umirc.ts文件中。
+一般 / redirect /index  , /index配置实际的页面。
+
+2024-04-15
+el-row不能嵌套使用，否则vue组件无法双向绑定。
+
+2024-04-12
+Whitelabel Error Page错误，服务在，接口404，
+非Whitelabel Error Page错误，服务不在，服务404。
+proxy_pass代理类似于alias，不带代理的路径，root带代理的路径
+proxy_pass应该location和proxy_pass最后都带/ 或都不带/。推荐都不带。
+通过了nginx代理的请求，502表示服务没启动，或启动的端口不对。
+
+2024-04-07
+高院连接内网：无Internet的网络设置ip
+手动ipv4，子网前缀长度：16（255.255.0.0)，ipv4地址：141.0.35.239，ipv4网关：141.0.35.254
+echarts地图中的data的name数据必须和地图json的name数据完全对应
+
+2024-03-30
+nginx配置中也只写死网关的地址。（可以一个服务，多部署，lcfg）
+nginx不能监听已经被占用了的端口。
+另一种：nginx配置写死各种服务地址（只能有一个服务，fyt）。
+nginx端的负载均衡，代理到多个写死地址的服务里。
+默认开发环境profiles.active（dev或prd）可以写在application.yml中或maven的配置文件中
+
+2024-03-29
+请求头中的host，和远程地址的区别。
+optional设置为true影响的是间接依赖，不影响父子间的依赖。
+打包：打包问题，可执行，可依赖jar包问题。打包插件中的skip属性(不要设置为true)。
+nginx配置中root和alias的区别（重要）。
+
+2024-03-28
+git reset（将git add . 操作撤回，如果commit了，只能git revert）
+git revert 提交版本号（撤回某一次提交，可以不是最后一次）
+
+2024-03-27
+微信小程序开发配置：获取麦克风需要隐私协议，chooseMsgFile，chooseImg不用。
+服务器域名 https域名不限端口（要添加端口）
+业务域名 限制https的443端口的域名（web-view）
+扫普通链接二维码打开小程序 http或https的任意端口路径且通过ICP备案域名
+
+公司业务：
+府院通更新版本：修改package.json，vue.config.js中的版本号
+府院通电脑端更新app，地址(fyt前端服务器)  /DPS/data1/MinIO/data/fyt/updatePath
+府院通消息在/src/layout/componts/StagingMain下面，菜单权限在/src/views/staging/StagingList下面
+联村法官APP更新wgt包：mainfest增加版本号，打出wgt包，放到服务器中，去nacos配置中增加版本号
+
+122.51.139.33服务器
+启动nginx:
+docker run -d -p 80:80 --name nginx -v /home/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /home/docker/nginx/html:/home/docker/nginx/html --restart=always nginx:latest
+
+启动redis:
+docker run -d -p 6379:6379 --name redis -v /home/docker/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf -v /home/docker/redis/data:/data --restart=always redis:latest redis-server /usr/local/etc/redis/redis.conf    
+(redis.conf中再加--appendonly yes 属性,开启持久化)
+docker exec -it redis redis-cli (直接进入redis设置密码)
+
+启动kkfile:
+docker run -d -p 8012:8012 --name kkfile --restart=always keking/kkfileview:latest
+
+启动mysql:(未启动)
+docker run -d -p 3306:3306 --name mysql -v /home/docker/mysql/lib/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=12345678 --restart=always mysql:5.7
+
+docker运行jar包:
+docker run -d -p 8080:8080 --name xxx-biz -v /home/docker/xxx-biz:/home/docker/xxx-biz --restart =always java:openjdk-8u111 java -jar /home/docker/xxx-biz/xxx-biz.jar
+
+数据库约束：默认约束，非空约束，唯一约束等（加在数据库表字段）。
+外键（foreign key）约束： 用于两张表之间建立连接。有外键的表叫做子表，被关联的表叫父表。 
+外键行为：删除或更新父表中被关联的外键，默认是不允许的。
+cascade：父表更新了，子表同样更新。
+set null模式：父表更新了，子表设为null。
+
+多表关系：
+一对一关系：用户与用户详情的关系。常用于单表的拆分。和一对多关系的区别就是外键设置为唯一约束。
+一对多关系：员工与部门的关系（一个员工只能有一个部门），在多(子表)的一方建立外键，关联一(父表)的那方的主键，多的那方叫子表，一的那方叫父表 
+多对多关系：学生（主表）与课程（主表）关系（一个学生可以有多个课程）， 建立第三张表（子表）里面维护两个外键，分别是学生表的主键和课程表的主键。
+
+多表查询：添加连接条件（子表的外键等于父表的主键）消除无效笛卡尔积。 
+连接查询：
+内连接是查询两表交集的部分。这个交集指的是两张表的外键和主键有确定关系的部分。
+左外连接：左表全部和两表交集部分。右外连接：右表全部和两表交集部分。
+自连接（单表的连接查询）：当前表与自身连接查询，必须使用表别名。 常用于一张表中的树形数据。 
+显示内连接：a join b on 连接条件 a left join b on 连接条件 
+联合查询：sql a union sql b 将两个查询结果合并起来，形成一个新的查询结果集。
+子查询（嵌套查询）：sql语句的where条件里还有select称为嵌套查询。
+
+sql执行顺序 from, join, where, group by,having, select, distinct, order by, limit
+
+2024-09-13
+开发过程：创建数据库-创建表-添加记录。创建工程-引入依赖。创建配置文件-指定数据库路径。创建工程启动类。
+创建操作表的实体类。创建Mapper-并继承BaseMapper-并指定对应实体类。  
+MP逻辑删除:在表里面添加标志位的字段，并配置。
+MP分页:创建配置类，配置分页。调用分页的方法。
+
+2024-09-23
+注意如果<mirrorOf>*</mirrorOf>会覆盖项目pom.xml中的私服地址
+安装jar包：mvn install:install-file -DgroupId=com.aspose.words -DartifactId=aspose-words -Dversion=19.5 -Dpackaging=jar -Dfile=aspose-words-19.5.jar
+rabbitmq:messagequeue(消息队列)将同步的事件驱动改为异步的消息驱动。解耦，异步，削峰。
+
+2024-09-25
+git access token: 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
+--------------------------------------------------------------------------------------------
+《java基础》
+1.java有几种基本数据类型，String是不是基本数据类型，他们有哪些区别？
+有8种数据类型，4种整数型：byte、short、int、long，2种浮点型：float、double，1种字符类型：char1种布尔型：boolean，String不是基本数据类型，String是一个类，类是引用数据类型。1个字节等于8位，int是4个字节，32位。
+
+2.equals与==的区别？
+==如果比较基本数据类型，比较的是值，如果比较引用类型，比较的是对象的地址值。equals不能比较基本数据类型，只能比较比较两个对象的地址值。
+
+3.为什么重写equals方法就一定要重写hashCode方法？
+如果只重写equals方法，不重写hashCode方法，就有可能导致a.equals(b)这个表达式成立，但是hashCode却不同。会造成一个完全相同的对象会存储在hash表的不同位置。也会导致Set集合不能去重。
+
+4.列出几种常见的异常？
+NullPointerException-空指针异常，ClassCastException-类型转换异常，IllegalArgumentException-非法参数异常，ArrayIndexOutOfBoundsException-数组下标越界异常，StringIndexOutOfBoundsException-字符串下标越界异常。ArithmeticException-算术异常。InterruptedException（阻塞线程被其它线程interrupt打断，会抛出该异常）。
+
+5.String和StringBuffer和StringBuilder的区别？
+StringBuffer：可变字符序列、(增删)效率较高、线程安全，StringBuilder：可变字符序列、(增删)效率最高、（不保证同步）线程不安全。
+
+6.Java中finalize方法的作用是什么？
+在Java中，finalize方法是Object类中定义的一个方法，其作用是在对象被垃圾回收器回收之前执行一些清理操作。finalize方法在对象即将被回收时自动调用，可以用来释放对象占用的资源、关闭文件或网络连接、取消注册的事件等清理工作。
+
+7.NoClassDefFoundError 和 ClassNotFoundException的区别？
+NoClassDefFoundError编译时成功时，但是在运行时找不到该类的定义时，则虚拟机会抛出该异常。
+ClassNotFoundException当程序使用类加载器动态加载 Class 文件时，如果没有找到该类，则虚拟机会抛出该异常
+
+8.Exception和Error的区别？
+Exception和Error都是继承于Throwable 类。Error是java程序运行中不可预料的异常情况。Exception可以使用try catch捕获处理。
+
+9.Java异常处理完成后，Exception对象会发生什么变化？
+Exception对象会在下一个垃圾回收过程中被回收掉。
+
+10.throw与throws的区别？
+thorws：主要在方法的声明后使用，表示方法中不处理异常，而交给调用方处理。
+throw直接抛出一个异常，throw new ArithmeticException("除数不能为零");
+
+11.marshalling和demarshalling
+Marshalling（序列化）是将内存中的对象状态转化为适合传输或存储的格式（如字节流、JSON、XML），以便进行网络通信、持久化存储或跨平台/语言交互操作。Demarshalling（反序列化）则是其逆过程，将序列化数据还原为原始对象。
+序列化实现方式包括：Java原生序列化：实现Serializable接口，使用JVM内置机制。第三方库：如protobuf、Avro、Jackson、Gson，提供更灵活、高效的解决方案。
+
+12.Servlet体系？
+Servlet根据客户端请求生成响应内容并将其传给服务器，服务器将响应返回客户端。
+GenericServlet 实现了 Servlet 接口，为 Servlet 提供了一些通用的功能，但它本身并不直接处理 HTTP 请求和响应。
+HttpServlet 继承自 GenericServlet，专门用于处理 HTTP 请求和响应。HttpServlet 提供了对 HTTP 请求方法的更直接的支持，如 doGet()、doPost() 等。
+Servlet 的生命周期分为四个阶段：实例化、初始化、处理请求、服务终止。init()，service()，destroy()是 Servlet 生命周期的方法，分别对应 Servlet 生命周期的后三个阶段，方法中的代码在处于对应的生命周期时被执行。
+与UNIX和DOS命令中的管道类似，你也可以将多个servlet以特定顺序链接起来。在servlet链中，一个servlet的输出被当作下一个servlet的输入，而链中最后一个servlet的输出被返回到浏览器。
+
+13.sendRedirect()和forward()方法有什么区别？
+sendRedirect()方法会创建一个新的请求，而forward()方法只是把请求转发到一个新的目标上。重定向(redirect)以后，之前请求作用域范围以内的对象就失效了，因为会产生一个新的请求，而转发(forwarding)以后，之前请求作用域范围以内的对象还是能访问的。一般认为sendRedirect()比forward()要慢。
+
+14.ResourceBundle类？
+类路径：java.util.ResourceBundle，用来读取项目中后缀为properties的配置文件的类。
+
+15.java流体系？
+字节流示例：文件复制。InputStream 及其子类，FileInputStream。
+字符流示例：文件内容读取和写入。Reader 及其子类，Writer 及其子类，FileReader。
+缓冲流示例：高效文件复制。BufferedInputStream, BufferedOutputStream, BufferedReader, BufferedWriter
+处理流示例：DataInputStream, DataOutputStream, FileReader, FileWriter
+转换流示例：InputStreamReader：将字节输入流转换为字符输入流，OutputStreamWriter：将字符输出流转换为字节输出流。
+
+16.抽象类和接口的区别?
+接口只能做方法声明，抽象类中可以作方法声明，也可以做方法实现。
+接口里定义的变量只能是公共的静态的常量，抽象类中的变量是普通变量。
+抽象类和接口都是用来抽象具体对象的，但是接口的抽象级别最高。
+抽象类可以有具体的方法和属性，接口只能有抽象方法和不可变常量。
+抽象类主要用来抽象类别，接口主要用来抽象功能。
+
+17.接口是否可继承接口? 抽象类是否可实现接口? 抽象类是否可继承实体类?
+接口可以继承(extends)接口。抽象类可以实现接口。抽象类可继承具体类也可以继承抽象类。
+
+18.try {}里有一种return语句，那么紧跟在这个try后旳finally{}里旳 code 什么时候被执行?
+会执行，在 return 前执行。 
+
+19.什么是静态方法？
+使用静态方法方便快捷，不用创建对象就能直接调用，省时省力，而且，静态方法是“共享”的，不占用每个对象的内存空间，所以更加节省内存。
+虽然静态方法好用，但也不能滥用，它比较适合用在那些不依赖对象状态、可以独立执行的功能上，比如工具类的方法，同时，因为静态方法是属于类的，所以要注意线程安全，特别是在修改静态变量时。
+
+20.interrupt方法？
+将在sleep（阻塞）状态的线程，变为就绪状态。
+
+21.wait()？
+与synchronized配合锁对象一起使用，调用锁对象.wait()方法，将该线程变进入等待队列，等待otify(),notifyAll()无时间限制的sleep，也会被interrupt打断，再检查synchronized同步锁，如果锁被释放了则变为就绪状态。
+
+22.join()？
+join()同样是Thread中的一个方法，调用join的线程拥有优先使用CPU时间片的权利，其他线程需要等待join()调用线程执行结束后才能继续执行，探索其底层会发现，它的底层是通过wait()进行实现，因此它也需要处理异常。
+
+23.sleep()与wait()的区别？
+JDK1.8 sleep() wait() 均需要捕获 InterruptedException 异常；
+sleep() 方法可以在任何地方使用；wait() 方法则只能在同步方法或同步代码块中使用；
+sleep() 会休眠当前线程指定时间，释放 CPU 资源，不释放对象锁，休眠时间到自动苏醒继续执行；wait() 方法放弃持有的对象锁，进入等待队列，当该对象被调用 notify() / notifyAll() 方法后才有机会竞争获取对象锁，进入运行状态。
+
+24.java多态的实现机制？
+父类的引用变量指向子类的实例对象。
+
+25.构造方法的作用是什么？
+主要作用是完成对类对象的初始化工作。
+
+26.在调用子类构造方法之前会先调用父类没有参数的构造方法，其目的是？
+帮助子类做初始化继承来的属性。
+
+27.hashCode？
+hashCode的作用时获取哈希值，也称散列码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。
+
+28.Java接口隔离原则和单一原则如何理解？
+单一原则：一个类只负责一项职责。隔离原则：不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。
+
+29.Java中是否有goto？如果没有，如何跳出当前的多重嵌套循环？
+没有。通过异常处理跳出循环。通过标志变量，多层都break出循环。通过添加标签，在最外层循环添加一个标签，在最里层通过break+标签  跳出循环。break是跳过整个循环 。continue是跳过本次循环。
+
+30.Java中创建对象的多种方法？
+通过new关键字，我们可以调用类的构造函数来创建一个新的对象实例。
+使用反射机制：Class.forName("Person").getConstructor(String.class).newInstance("glm")
+通过实现Cloneable接口并重写clone方法，再调用clone方法实现对象的克隆。
+使用使用工厂方法。工厂方法模式是一种设计模式，通过定义一个用于创建对象的接口，该接口里一个方法没有方法体，返回值是要创建的对象，子类去实现该接口，并重写该方法，在里面创建对象并返回。通过多态调用该方法，得到对象。
+
+31.final修饰的类的特点？
+不能被继承。Sting就是一个被final修饰的类。还可以修饰变量，被final修饰的变量就是一个常量，只能赋值一次。
+
+32.设计模式？
+创建型模式：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。
+结构型模式：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。
+行为型模式：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。
+
+33.单例模式？
+饿汉单例模式：private static Singleton instance = new Singleton();让单例类的构造方法变成私有。让外部通过只能通过get方法读取。只涉及到读操作(线程是安全的)。
+懒汉单例模式：在get方法中判断该对象是否为空,为空我们再去实例化,否则直接返回该对象。但是这样是线程不安全的，加锁（用同步代码块包起来）。
+内部类创建的单例模式。
+
+34.指令重排序线程不安全问题？
+构造对象分三步：1，创建出对象(建好房子)，2，构造对象(装修房子)，3，将生成的地址赋值给对象引用(拿到钥匙).在多线程情况下,线程调度无序,那么某个线程可能会拿到一个没有构造好的对象(啥也没有,属性都是默认的)。所以为了保证线程拿到完整的对象,我们需要用volatile关键字修饰单例类的唯一对象。
+
+35.工厂模式？
+如果创建某个对象的过程都很复杂，需要一定的代码量，而且很多地方都要用到，那么就会有很多的重复代码。由于创建过程都由工厂统一管理，所以发生业务逻辑变化，不需要找到所有需要创建某个对象的地方去逐个修正，只需要在工厂里修改即可，降低维护成本。
+工厂方法：工厂负责一种类型，再增加其他的类型只需要添加一个工厂类以及具体的图形类即可，符合了开放-封闭原则
+
+36.抽象工厂和工厂方法的区别？
+抽象工厂是生产一整套有产品的（至少要生产两个产品)，这些产品必须相互是有关系或有依赖的，而工厂方法中的工厂是生产单一产品的工厂。接口里多个方法，返回值不同的要创建的对象。
+
+37.值对象模式
+值对象的本质是“封装数据”，就是vo，例：UserVo。
+
+38.Dao模式？
+public class EmpDaoImpl extends BaseDao implements EmpDao{}
+BaseDao里面有注册驱动，连接数据库，executeQuery，executeUpdate等方法。
+EmpDao里面都是接口，saveEmp，updateEmp，selectEmp等。
+EmpDaoImpl继承BaseDao，并实现EmpDao，实现saveEmp方法，通过super.executeUpdate()插入到数据库中。
+
+39.foreach和for循环的区别
+foreach虽然能遍历数组或者集合，但是只能用来遍历，无法在遍历的过程中对数组或者集合进行修改。
+而for循环可以在遍历的过程中对源数组或者集合进行修改。(但是删除会导致元素前移，有个元素遍历不到，可以使用i--解决)
+
+40.foreach为什么不能增加或删除集合？
+foreach循环会转换成迭代器方式，所以遍历下⼀个元素之前会验证modCount（是集合的修改次数）与expectedModCount（是迭代器中集合的修改次数）是否相同。
+在循环或迭代时，会首先创建一个迭代实例，这个迭代实例的expectedModCount 赋值为集合的modCount.
+每当迭代器使⽤ hashNext() / next() 遍历下⼀个元素之前，都会检测 modCount 变量与expectedModCount 值是否相等，相等的话就返回遍历；否则就抛出异常【ConcurrentModificationException】，终⽌遍历
+如果在循环中添加或删除元素，是直接调用集合的add,remove方法【导致了modCount增加或减少】，但这些方法不会修改迭代实例中的expectedModCount，导致在迭代实例中expectedModCount 与 modCount的值不相等，抛出ConcurrentModificationException异常
+但迭代器中的remove,add方法，会在调用集合的remove,add方法后，将expectedModCount 重新赋值为modCount，所以在迭代器中增加、删除元素是可以正常运行的。
+--------------------------------------------------------------------------------------------
+《集合》
+1.什么是快速失败和安全失败？
+快速失败是指在多线程访问情况下，使用迭代器遍历集合数据时，其他线程对集合进行了修改，此时则会抛出
+Concurrent Modification Exception异常。
+而安全失败则是，在其他线程想要修改集合数据时，将集合“原件”进行“复印”，使得其他线程修改的是“复印件”，而不影 响其他线程对原集合数据的迭代访问，从而达到安全失败的效果。
+安全失败的好处：
+在对于数据要求并非特别严格，允许数据出现延迟刷新时，安全失败可以保护程序不面临崩溃，而是付出相对较小的代价，解决数据安全问题。类似于论坛的评论等。
+ArrayList所实现的AbstractList接口，会对程序进行快速失败，而CopyOnWriteArrayList所实现的list接口，则是提供安全失败。HashMap会对程序进行快速失败，ConcurrentHashMap则是提供安全失败.
+
+2.集合体系？
+分为单列集合（类似于js中的数组）和双列集合（类似于js中的对象），单列集合接口Collection,又分为List（可重复数组）接口和Set（不可重复数组）接口,实现类包括ArrayList,LinkedList,HashSet,LinkedHashSet,TreeSet，双列集合接口Map,实现类包括HashMap, LinkedHashMap, TreeMap,Properties。
+
+3.数组和链表？
+数组更具下标查找时间复杂度为o(1),通过关键字查找时间复杂度为o(n)。
+链表插入和删除时间复杂度为o(1),而查找需要遍历链表,时间复杂度为o(n)。
+
+4.二叉查找树和平衡二叉查找树？
+二叉查找树(也叫二叉搜索树)是高度任意的二叉树，有左边的一定比右边的小，有顺序，所以方便查找。时间复杂度为o(logn)
+平衡二叉查找树也叫平衡二叉树(AVL)，左右子树的高度差不超过1。
+
+5.hashMap工作原理？
+由数组和链表的数据结构组成。
+插入和查找数据时将key和value封装成一个node节点，然后根据key的hashCode除以桶的长度得到一个下标，这个下标下面挂着的是一条链表，新数据比较key，相同则覆盖value值，不相同则插在最后面。
+在jdk8以后，如果链表的节点数大于8个，链表会变成红黑树结构。当红黑树上的节点小与6个，又会变成单向链表。核心目的都是提升和均衡搜索效率。
+hashMap的resize（也叫rehash）表示数组的默认长度（默认长度16）快用完时，会发生扩容（扩容因子是0.75）。要从新计算元素在数组中的位置。
+
+6.红黑树的理解？
+每个节点不是黑色就是红色，根节点和叶节点是黑色的。
+红色的节点一定是有两个黑色的孩子节点。
+从某节点到其所有后代叶节点的路径上，黑色节点都是一样。
+红黑树是一个不完美的平衡二叉树。
+
+7.HashMap和Hashtable有什么区别？
+HashMap线程不安全,HashTable线程安全(Hashtable 中的方法大多是Synchronize的，而HashMap中的方法在一般情况下是非Synchronize的。)
+解决hash冲突方式不同(地址冲突):HashTable中,不轮链表长度是否大于8,都是以链表方式存储。
+Hashmap是允许key和value为null值的，HashTable键值对都不能为空。
+
+
+--------------------------------------------------------------------------------------------
+《多线程》
+1.多线程的方式？
+继承Thread类。实现Runable接口。
+
+2.start方法和run方法？
+start()方法用来启动一个线程，这时此线程处于就绪（可运行）状态，并没有运行，一旦得到cpu时间片，就开始执行run()方法。而直接调用run()方法，仅仅只是调用了一个类里的方法，其本质上还是在当前线程中执行的，因此只有使用start()方法来调用$un()方法才能实现真正的多线程。
+
+3.线程的 sleep()方法和 yield()方法？
+执行sleep()方法后转入阻塞（blocked）状态，而执行yield()方法后转入就绪（ready）状态.
+--------------------------------------------------------------------------------------------
+《spring》
+1.Spring框架的核心模块？
+核心容器（Core Container）：
+Spring-core：提供了框架的基本组成部分，包括IoC（控制反转）和DI（依赖注入）功能，以及一些基础工具类如类型转换服务、资源加载器等。
+Spring-beans：提供了BeanFactory接口，这是工厂模式的经典实现，是Spring用来创建、配置和管理Java对象（称为Bean）的主要机制。它包含了Bean的定义、解析、装配和生命周期管理等功能。
+Spring-context：建立在Core和Beans模块基础之上，提供了更高级别的抽象，如ApplicationContext接口。它引入了AOP（面向切面编程）支持，事件传播（ApplicationEventPublisher）等，并能够与Spring的其他模块集成。
+AOP模块（Spring AOP）：
+提供了面向切面编程的实现，允许定义方法拦截器和切入点，将诸如事务管理这样的横切关注点与业务逻辑解耦，实现了代码的模块化和重用。
+Spring-JDBC：简化了JDBC的使用，提供了一个JDBC抽象层，封装了异常处理和资源管理，支持模板化操作和RowMapper接口以简化结果集映射。
+Spring-TX：提供了对事务管理的支持，包括编程式和声明式事务管理，可以与各种事务管理API（如JTA、JDBC）及事务管理器无缝集成。
+Spring-ORM：为流行的ORM框架（如MyBatis等）提供了集成支持，使它们能够遵循Spring的通用事务和DAO异常层次结构。
+Web模块（Spring Web）：
+Spring-web：提供了基本的面向Web的集成特性，如多部分文件上传、Servlet监听器以及Web相关的应用上下文。它为与其他Web框架（如Struts、JSF）的集成提供了支持。
+Spring-webmvc（Spring MVC）：实现了模型-视图-控制器（MVC）设计模式，为构建Web应用程序提供了全面的解决方案，包括处理器映射、视图解析、数据绑定、异常处理等。
+
+2.什么是IOC？什么是DI？
+把对象交给Spring管理, 就是IoC思想。也就是说 Spring 是一个"控制反转"的容器
+什么是控制反转呢? 也就是控制权反转。 什么的控制权发生了反转? 获得依赖对象的过程被反转了。
+也就是说, 当需要某个对象时, 传统开发模式中需要自己通过 new 创建对象, 现在不需要再进行创 建, 把创建对象的任务交给容器, 程序中只需要依赖注入 (DI)就可以了。
+容器在运行期间, 动态的为应用程序提供运行时所依赖的资源，称之为依赖注入（DI）。IoC 是一种思想，也是"目标"，而思想只是⼀种指导原则，最终还是要有可行的落地方案，而 DI 就属于 具体的实现。所以也可以说, DI 是IoC的一种实现。
+
+3.什么是声明式事务？
+Spring的声明式事务就是采用声明的方式来处理事务，用在Spring配置文件中声明式的处理事务来代替代码式的处理事务。这样的好处是，事务管理不侵入开发的组件，具体来说，业务逻辑对象就不会意识到正在事务管理之中，事实上也应该如此，因为事务管理是属于系统层面的服务，而不是业务逻辑的一部分，如果想要更改事务管理，也只需要在定义的配置文件中修改配置即可，在不需要事务管理的时候，只要在配置文件上修改一下，即可移去事务管理服务，无需改变代码重新编译，这样维护起来极其方便。
+
+4.如何实现声明式事务？
+在application.xml配置文件中进行事务配置，SpringAOP的原理配置的。
+使用@Transactional注解方式。在application.xml配置文件中进行事务配置(通知Spring容器对注解@Transactional的Bean处理)，@Transactional注解可以添加到类上(表示所有的方法都加入事务管理)，也可以在具体的方法加上注解@Transactional。一般用在EmpDaoImpl的方法上。
+
+5.注解事务的原理？
+当spring容器启动的时候，发现有@EnableTransactionManagement（在spring配置类上是否有）注解，此时会拦截所有bean的创建，扫描看一下bean上是否有@Transaction注解（类、或者父类、或者接口、或者方法中有这个注解都可以），如果有这个注解，spring会通过aop的方式给bean生成代理对象，代理对象中会增加一个拦截器，拦截器会拦截bean中public方法执行，会在方法执行之前启动事务，方法执行完毕之后提交或者回滚事务。
+
+6.解释Spring AOP里面的关键词 ？
+target（目标类）：需要被代理的类。
+Joinpoint（连接点）：Spring中连接点指的就是被拦截到的方法
+Advice（通知）：AOP在连接点上如何执行的增强处理，有before（前置），after（后置），afterReturning（最终），afterThrowing（异常），around（环绕）
+Pointcut（切点）：在程序中主要体现为书写切入点表达式
+连接点相当于数据库中的记录，而切点相当于查询条件。切点和连接点不是一对一的关系，一个切点可以匹配多个连接点。
+切面（Aspect）：切面由切点和通知组成
+织入（Weaving）：把切面应用到目标对象来创建新的代理对象的过程，Spring采用动态代理织入（在运行期为目标类添加通知生成子类的方式）
+Proxy（代理）：AOP框架创建的对象，代理就是目标对象的加强。Spring中的AOP代理可以使JDK动态代理，也可以是CGLIB代理，前者基于接口，后者基于子类。
+AOP：面向切面编程，对面向对象编程的一种补充。
+例：四个方法都要添加日志，横切一刀，将这个面看作一个对象，操作这个对象，这个对象就是切面， 拦截哪些方法（连接点？）？通过自定义注解标记目标方法（新建注解包，自定义一个注解类，给这个注解添加一些源注解，例如加在方法上的，运行时的。就可以使用注解了）。新建切面包，新建一个切面类，加上切面注解并交给ioc管理，并加上切面注解。在这个类中添加方法（切点）并加上切点的注解写自定义的注解就找到了，这个就是切点（找连接点的）。再添加一个方法（通知）并加上通知注解写上面切点的方法名，就会执行通知方法。这个通知方法里第一个参数就是连接点对象。
+
+7.Spring的Advice的执行顺序？
+Around before...，before....，连接点对象返回完，after....，Around after...
+
+8.Spring Bean 生命周期?
+实例化（Instantiation）：Spring 容器根据配置元数据（XML 配置文件、Java 配置类或注解）创建 Bean 实例。
+属性注入（Dependency Injection）：Spring 容器将依赖注入到 Bean 实例中，完成属性的设置。
+初始化（Initialization）：在 Bean 实例化和属性注入完成后，Spring 容器会调用 Bean 的初始化方法，进行一些自定义的初始化操作。
+就绪使用（Ready for Use）：Bean 被初始化后，进入就绪状态，可以被应用程序使用。
+销毁（Destruction）：当 Spring 容器关闭时，会调用 Bean 的销毁方法，进行一些自定义的销毁操作。
+@PostConstruct和@PreDestroy注解，自定义 Bean 的初始化和销毁方法。
+InitializingBean和DisposableBean是Spring 提供的两个接口，分别用于定义初始化和销毁方法。
+@Bean(initMethod = "customInit", destroyMethod = "customDestroy")用于定义初始化和销毁方法。
+
+9.BeanFactory和ApplicationContext的区别？
+ApplicationContext继承了BeanFactory，ApplicationContext在BeanFactory基础上对功能进行了扩展（比如国际化，时间发布，AOP集成、任务执行和资源管理等）。
+
+10.什么是BeanFactory？
+BeanFactory是Spring框架中的一个接口，定义了一种工厂模式的设计，用于管理和装配Java对象。它充当了一个对象工厂，可以在应用程序中创建和管理对象。
+BeanFactory在初始化容器时，并未实例化Bean，直到第一次访问某个Bean时才实例目标Bean。
+ApplicationContext则在初始化应用上下文时就实例化所有单实例的Bean，相对应的，ApplicationContext的初始化时间会比BeanFactory长一些。
+
+11.Spring Bean几种作用域？
+singleton：单例作用域，所有对该Bean的请求都返回同一个Bean实例。
+prototype：原型作用域，每次请求时都创建一个新的Bean实例。
+request：请求作用域，每个HTTP请求都会创建一个新的Bean实例，该Bean实例仅在当前请求内有效。
+session：会话作用域，每个HTTP会话都会创建一个新的Bean实例，该Bean实例仅在当前会话内有效。
+application：全局作用域,一个bean 定义对应于单个ServletContext 的生命周期。
+websocket： HTTP WebSocket 作用域,一个bean 定义对应于单个websocket 的生命周期。
+
+12.Spring框架中的bean是线程安全的吗？
+默认就是线程不安全的。但是对于开发中大部分的bean，其实都是无状态的，不需要保证线程安全。
+无状态：表示这个实例没有属性对象，不能保存实数据，是不变的类。比如：controller、service、dao。
+有状态：表示实例是有属性的对象，可以保存数据，是线程不安全的，比如：pojo。
+但是如果要保证线程安全，可以将bean的作用域改为prototype，比如像Model View。
+ThreadLocal和线程同步机制都是为了解决多线程中相同变量的访问冲突问题。
+线程同步机制采用了“时间换空间”的方式，仅提供一份变量，不同的线程在访问前需要获取锁，没获得锁的线程则需要排队。ThreadLocal采用了“空间换时间”的方式。ThreadLocal会为每一个线程提供一个独立的变量副本，从而隔离了多个线程对数据的访问冲突。因为每一个线程都拥有自己的变量副本，从而也就没有必要对该变量进行同步了。
+
+13.spring基于xml注入bean的几种方式？
+使用类的无参数构造函数来创建<bean id="user" class="xxx"></bean>
+使用静态工厂创建:创建类后，需要再创建一个静态工厂<bean id="user" class="xxx" factory-method="getUser">
+使用实例工厂创建:创建类后，需要再创建一个普通工厂<bean id="userFactory" class="xxx"></bean>
+<bean id="user" factory-bean="userFactory" factory-method="getUser"></bean>
+
+14.spring为bean的属性注入值方式?
+set方法注入:对于基本数据类型，或者是Java的包装类型（比如String），使用value注入值，而对于引用类型，则使用ref，传入其他bean的id。
+构造器注入:得为类提供包含参数的构造方法
+静态工厂注入
+实例工厂注入
+注解注入：@Autowired或者@Resource这两个注解进行依赖注入，为基本数据类型或者是Java的封装类型（比如String）赋值呢？这时候可以使用@Value注解。
+
+15. spring启动过程？
+加载配置文件：Spring会读取并加载应用程序中的配置文件，如XML配置文件、注解配置等，包括配置数据库连接、事务管理、AOP 配置等。。
+实例化IOC容器：Spring会实例化一个IOC容器，用于管理应用程序中的各种Bean对象。
+扫描组件：Spring会扫描应用程序中的所有组件，包括Bean、Controller、Service等。
+实例化Bean对象：Spring会根据配置文件或注解实例化各种Bean对象，并将其放入IOC容器中。
+注入依赖：Spring会自动注入Bean对象之间的依赖关系，即将一个Bean对象注入到另一个Bean对象中。
+初始化Bean对象：Spring会调用Bean对象的初始化方法，如@PostConstruct注解标注的方法。
+启动应用程序：最后，Spring会启动应用程序，执行各个Bean对象的逻辑，完成应用程序的初始化过程。
+
+16.Spring 循环依赖解决方案？
+Spring利用三级缓存解决循环依赖流程。
+
+
+17.Spring无法解决的循环依赖？
+延迟加载@Lazy注解。
+对你需要注入的bean是使用setter注入（或字段注入），而不是构造函数注入。
+
+18.Spring bean注入流程？
+类实例化 -> 属性注入 -> 初始化(执行@PostConstruct注解的方法) -> (如果有需要)生成代理对象 -> 使用
+
+19.简述spring的自动装配？
+@Autowired根据指定的装配规则，不需要明确指定，Spring自动将匹配的属性值注入bean中。
+@Qualifier("beanName"): 当存在多个相同类型的Bean时，可以使用@Qualifier注解来明确指定要注入哪一个Bean。
+constructor: 如果使用构造器注入，Spring将根据类型来装配构造器的参数。
+
+20.Spring框架中都用到了哪些设计模式？
+单例模式（Singleton Pattern）：Spring Bean的默认作用范围是单例的
+Spring使用工厂模式通过BeanFactory和ApplicationContext来创建Bean实例。
+Spring AOP（面向切面编程）主要使用了代理模式，来实现方法拦截和增强功能。
+Spring中的JdbcTemplate和RestTemplate等模板类都是模板方法模式的典型应用。
+
+21.Spring框架中事件？
+上下文更新事件（ContextRefreshedEvent）：
+ApplicationContext 被初始化或刷新时，该事件被发布。这也可以在ConfigurableApplicationContext 接口中使用 refresh() 方法来发生。此处的初始化是指：所有的Bean被成功装载，后处理Bean被检测并激活，所有 Singleton Bean 被预实例化，ApplicationContext容器已就绪可用。
+上下文开始事件（ContextStartedEvent）：
+当使用 ConfigurableApplicationContext （ApplicationContext子接口）接口中的 start() 方法启动 ApplicationContext 时，该事件被发布。此时可以调查的数据库，或者可以在接受到这个事件后重启任何停止的应用程序。
+上下文停止事件（ContextStoppedEvent）：
+当使用 ConfigurableApplicationContext 接口中的 stop() 停止 ApplicationContext 时，发布这个事件。可以在接受到这个事件后做必要的清理的工作
+自定义事件：
+自定义事件继承ApplicationEvent.监听器事件实现ApplicationListener.写配置类用ioc容器注册事件.调配置类发布事件
+
+22.@Component 和 @Bean 的区别是什么？
+作用对象不同：@Component 注解作用于类，而 @Bean 注解作用于方法、
+@Component 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中。@Bean 注解通常是我们在标有该注解的方法中定义产生这个 bean，@Bean 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。
+@Bean 注解比 @Component 注解的自定义性更强，而且很多地方我们只能通过 @Bean 注解来注册 bean。比如当我们引用第三方库中的类需要装配到 Spring 容器时，只能通过 @Bean 来实现。
+
+23.Autowire 和 @Resource 的区别？
+@Autowire 默认按类型装配，默认情况下必须要求依赖对象必须存在，如果要允许 null 值，可以设置它的 required 属性为 false。
+@Resource 默认按名称装配，当找不到与名称匹配的 bean 时才按照类型进行装配。名称可以通过 name 属性指定，如果没有指定 name 属性，当注解写在字段上时，默认取字段名，当注解写在 setter 方法上时，默认取属性名进行装配。
+
+24.Spring事务中的隔离级别有哪几种？
+Spring的事务隔离级别是用于控制事务并发访问数据库时的行为。Spring框架提供了五个事务隔离级别，分别是：
+DEFAULT（默认）：使用数据库默认的事务隔离级别。在大多数情况下，这等同于使用READ_COMMITTED级别。
+READ_UNCOMMITTED（读取未提交数据）：最低的隔离级别，允许一个事务读取另一个事务未提交的数据。这种隔离级别可能会导致脏读、不可重复读和幻读问题。
+READ_COMMITTED（读取已提交数据）：保证一个事务只能读取到已经提交的数据，避免脏读问题。但是在并发情况下，可能会导致不可重复读和幻读问题。
+REPEATABLE_READ（可重复读取）：保证一个事务在多次读取同一数据时，能够得到一致的结果。在该隔离级别下，其他事务不能修改当前事务已经读取的数据，避免了不可重复读问题。但是仍然可能出现幻读问题。
+SERIALIZABLE（可串行化）：最高的隔离级别，确保并发事务之间不会发生任何并发问题。它通过强制事务串行执行来避免脏读、不可重复读和幻读问题。但是这种隔离级别的性能较低，一般情况下不建议使用。
+可以通过在@Transactional注解中设置isolation属性来指定事务的隔离级别。
+
+25.简述Spring事务中有哪几种事务传播行为？
+在a service中依赖b service,a中方法调了b中方法,a和b方法中都有事务，此时产生事务传播行为（b方法中的事务传播到了a方法中的事务中）
+相融：合并为一,挂起:两个事务相互独立,内部事务新开一个(要解决同步)，嵌套：内部事务改成保存点的形式、外部事务不变。
+required：(默认传播行为)。11相融，01当前事务。//
+supports：11相融，01无事务。
+not_supported：以非事务执行。11外界挂起，自己非事务。01无事务。//
+mandatory:总是以事务方式执行，11相融。10抛异常。01抛异常。//
+never: 11抛异常。01抛异常。//
+nested：11嵌套，01当前事务。//
+requires_new：11挂起，01当前事务。//
+REQUIRED：如果当前没有事务，就创建一个新事务，如果当前存在事务，就加入该事务。//
+SUPPORTS：支持当前事务，如果当前存在事务，就加入该事务，如果当前不存在事务，就以非事务执行。//
+MANDATORY：支持当前事务，如果当前存在事务，就加入该事务，如果当前不存在事务，就抛出异常。//
+REQUIRES_NEW：创建新事务，无论当前存不存在事务，都创建新事务。//
+NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。//
+PROPAGATION_NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。//
+NESTED：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则创建新事务。//
+
+26.Spring框架提供的容器有哪些？
+BeanFactory和ApplicationContext。
+BeanFactory就是一个管理Bean的工厂，它主要负责初始化各种Bean，并调用它们的生命周期方法
+ApplicationContext是BeanFactory的子接口，也被称为应用上下文。
+
+27.简述BeanDefinition的作用 ？
+BeanDefinition 用于保存 Bean 的相关信息，包括属性、构造方法参数、依赖的 Bean 名称及是否单例、延迟加载等，它是实例化 Bean 的原材料，Spring 就是根据 BeanDefinition 中的信息实例化 Bean。
+BeanDefinition 是一个接口，它有多个实现类，这些实现类分别描述不同类型的 Bean。
+
+28.解决同名类？
+通过@ComponentScan进行排除。通过加@Primary注解解决。自定义TypeExcludeFilter。
+@Primary注解可以用来指定当存在多个同类型的Bean时，哪个Bean应该被优先考虑。
+这边有个特别需要注意的细节点，因为TypeExcludeFilter是要排除bean的，因此他注入的时机至少要在其他bean注入之前，具体来说就是在容器上下文refresh执行之前，就得完成注入。在refresh之前执行的扩展点有很多，我们就挑一个，我们以实现ApplicationContextInitializer为例。
+
+29.控制反转(IoC)的实现机制
+Spring 中的 IoC 的实现原理就是简单工厂模式加反射机制。
+
+30.依赖注入的基本原则?
+应用组件不应该负责查找资源或者其他依赖的协作对象。配置对象的工作应该由IoC容器负责，“查找资源”的逻辑应该从应用组件的代码中抽取出来，交给IoC容器负责。容器全权负责组件的装配。
+
+31.构造器注入和 Setter方法注入的区别?
+最好的解决方案是用构造器参数实现强制依赖，setter方法实现可选依赖。
+构造器注入可注入不可变对象(final类型的)；
+构造函数注入一般用于注入不可变的依赖对象，而setter注入用于注入可变的依赖对象。
+因为依赖对象是在构造方法中执行的，而构造方法是在对象创建之初执行的，因此被注入的对象在使用之前，会被完全初始化，这也是构造方法注入的优点之一。
+
+32.Spring如何处理线程并发问题?
+使用@Async注解：通过@Async注解将一个方法标记为异步执行，这样该方法会在一个新的线程中运行，不会阻塞调用它的线程。
+使用Executor和TaskExecutor接口：Spring提供了Executor和TaskExecutor接口，它们是任务执行器，可以用于执行异步任务。通过注入一个Executor或TaskExecutor实例，可以更灵活地控制任务的执行。
+使用@Scheduled注解：Spring的@Scheduled注解用于支持定时任务，在指定的时间间隔内自动执行某个方法。
+使用ThreadLocal变量：ThreadLocal变量可以用来存储线程局部变量，每个线程都拥有该变量的一个副本，从而避免了多线程并发访问的问题。
+使用同步锁：通过synchronized关键字或Lock接口来实现同步锁，可以防止多个线程同时访问某个共享资源，从而解决并发问题。
+使用事务管理：Spring提供了强大的事务管理功能，可以保证在并发环境下数据的一致性和完整性。
+
+33.Spring中如何注入一个java集合？
+@Bean
+public List<String> myList() {
+   return Arrays.asList("item1", "item2", "item3");
+}
+或者xml方式，<list></list>注入。
+
+34.什么是bean的自动装配？
+在使用 Spring 配置 bean 时,我们都要给配置的 bean 的属性设置一个值,如果不手动设置则都是空。而自动的好处就在于，我们不用手动去设置一个值，spring 会在上下文中自动寻找并装配合适的值。
+
+35.Spring中bean有几种装配机制？
+在xml中显式配置；
+在java中显式配置；
+隐式的bean发现机制和自动装配。
+
+36.自动装配又有几种机制？
+byName：根据属性名自动装配。
+byType：根据属性类型自动装配
+constructor: 如果使用构造器注入，Spring将根据类型来装配构造器的参数。
+注解实现自动装配@Autowired和@Resource
+
+37.@Autowired和@Resource的区别？
+@Autowired为Spring提供的注解，@Resource为java提供的注解
+@Autowired 默认通过 byType 的方式实现，如果有多个对象，则通过 byName 查找，如果都找不到或不唯一，则报错；此时可以用@Qualifier指定（指定名字）唯一的bean对象
+@Resource 默认通过 byName 的方式实现，如果找不到名字或不唯一， 则通过 byType 实现！如果两个都找不到或不唯一，就会报错
+
+38.可以在Spring中注入一个null 和一个空字符串吗？
+@Autowired(required = false)  @Value("")
+
+39.如何在 spring 中启动注解装配？
+默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 <context：annotation-config/> 元素在 Spring 配置文件中启用它。
+
+40.Spring 中的 @Required 注解的作用?
+表示该属性必须要被设置（必须要被注入）。不过@Required注解已被废弃，不再推荐使用。Spring推荐使用构造器注入来确保必需的依赖能被正确的设置。这种方式更为直观，并且可以利用Java的类型安全特性，而不需要额外的运行时检查。
+
+41.简述Spring @ControllerAdvice ？
+@ControllerAdvice 是 Spring 框架提供的一个注解，用于定义全局的异常处理器和全局数据绑定。它通常用于集中处理应用程序中的异常，并提供统一的异常处理逻辑。
+
+42.FactoryBean?
+工厂Bean是BeanFactory中的一个特殊的Bean。FactoryBean接口很简单，就提供了三个方法getObject、getObjectType、isSingleton。
+FactoryBean的真正目的是让开发者自己去定义那些复杂的bean并交给spring管理，如果bean中要初始化很多变量，而且要进行许多操作，那么使用spring的自动装配是很难完成的，所以spring的开发者把这些工作交给了我们。
+
+42.ApplicationContext?
+访问应用程序组件的Bean工厂方法。从org.springframework.beans.factory.ListableBeanFactory继承。
+以通用方式加载文件资源的能力。继承自org.springframe .core.io。ResourceLoader接口。
+向注册侦听器发布事件的能力。继承自ApplicationEventPublisher接口。
+解析消息的能力，支持国际化。继承自MessageSource接口。
+
+43.SpringAOP默认的动态代理是什么？区别是什么？
+默认情况下，Spring会优先使用JDK动态代理。如果目标类没有实现任何接口，Spring才会退而求其次地使用CGLIB代理。
+你可以通过配置强制Spring使用CGLIB代理，如在@EnableAspectJAutoProxy注解中设置proxyTargetClass=true，即使目标类实现了接口，Spring也会使用CGLIB代理。
+JDK动态代理：适用于实现了接口的类，性能稍低。
+CGLIB代理：适用于没有接口的类，性能稍高，但不支持final类。
+
+44.简单讲一讲请求如何找到对应的Controller？
+所有的HTTP请求首先都会被Spring的DispatcherServlet拦截。DispatcherServlet是Spring MVC的核心，它负责将请求分发给适当的处理器（通常是一个Controller）。
+DispatcherServlet会利用一个或多个HandlerMapping来查找与当前请求路径对应的处理器（即Controller）。
+HandlerMapping是Spring中的一个接口，它的实现类负责根据请求URL查找处理器。最常用的实现是RequestMappingHandlerMapping，它会根据@RequestMapping注解来匹配请求。
+一旦DispatcherServlet确定了哪个处理器（即哪个Controller方法）应该处理当前请求，它会将这个处理器交给HandlerAdapter。
+HandlerAdapter负责调用具体的Controller方法。它会处理方法参数的注入（比如@RequestParam、@PathVariable等），并在方法执行后，将返回值包装为一个ModelAndView对象。
+如果Controller方法返回的是视图名称，DispatcherServlet会使用ViewResolver来解析视图并渲染页面。
+如果返回的是数据（如JSON），HttpMessageConverter将负责将数据转换为相应的格式并返回给客户端。
+总结：请求首先到达DispatcherServlet。DispatcherServlet通过HandlerMapping查找与请求URL匹配的Controller。
+找到匹配的Controller方法后，HandlerAdapter负责调用该方法。返回视图或数据给客户端。
+
+45.Spring 事务在什么情况下会失效？
+如果目标方法不是 public，则TransactionAttribute返回 null，即不支持事务。
+如果某个方法用 final 修饰了，那么在它的代理类中，就无法重写该方法，而添加事务功能。注意：如果某个方法是 static 的，同样无法通过动态代理，变成事务方法。
+在同一个类中的方法直接内部调用，会导致事务失效。
+多线程调用
+错误的事务传播特性
+
+46.Spring 中的 @Profile 注解的作用是什么？
+@Profile注解用于条件化地注册bean，基于所活动的环境配置文件(profiles)。一个环境配置文件对应于一组特定的应用配置，例如，你可能会有development、test和production不同的配置文件，每个配置文件针对不同的运行环境。
+--------------------------------------------------------------------------------------------
+《springMvc与springBoot》
+1.请简述Spring MVC的五大组件 ？
+DispatcherServlet:这个控件是SpringMVC最核心的一个控件，是Spring写好的一个Servlet
+HandleMapping:控件标明了路径与Controller的对应关系，不同的路径访问不同的Controller
+Controller用来处理业务逻辑的Java类
+ModeAndView:Mode用来绑定处理后所得的数据，View视图名
+ViewResolver:视图解析器明确了视图名与视图对象的关系，是调用demo.jsp还是调用demo.html,以及明确视图的位置
+
+2.spring MVC中的前段控制器?
+spring MVC中的前段控制器就是DsipatcherServlet,他继承了HttpServlet这个抽象类。
+
+3.Spring MVC框架的优点？
+Spring MVC采用了MVC（模型-视图-控制器）设计模式，通过将应用程序的不同层分离，实现了松耦合的架构，使得开发和维护变得更容易。
+
+4.自定义拦截器？
+自定义一个拦截器非常简单，只需要实现HandlerInterceptor这个接口即可，该接口有三个可以实现的方法：
+preHandle()：该方法会在目标方法执行前执行，当其返回值为true时，表示继续向下执行；当其返回值为false时，会中断后续的所有操作(包括调用下一个拦截器和控制器类Controller中的方法执行等 )。
+postHandle()： 该方法会在目标方法调用之后，且解析视图之前执行。可以通过此方法对请求域中的模型和视图作出进一步的修改。
+afterCompletion()：该方法会在整个请求完成，即视图渲染结束之后执行。可以通过此方法实现一些资源清理、记录日志信息等工作。
+想要在Spring Boot生效，只需要定义一个配置类，实现WebMvcConfigurer这个接口，并且实现其中的addInterceptiors()方法即可。
+
+5.spring boot的starter是什么？
+starter是依赖的集合
+starter可以理解成pom配置了一堆jar组合的空maven项目，用来简化maven依赖配置，starter可以继承也可以依赖于别的starter。
+starter使用注解自动配置的形式提供默认的配置，使开发项目更便捷。
+starter负责配置固定的版本以及依赖的整合问题。
+
+6.starter原理？
+主要是基于它提供的起步依赖和自动配置。
+
+7.Spring Boot是如何完成自动配置的呢？
+自动配置涉及到如下几个关键步骤：基于Java代码的Bean配置。自动配置条件依赖。Bean参数获取。Bean的发现。Bean的加载
+
+8.解释为什么需要spring-boot-maven-plugin？
+方便地将Spring Boot应用程序打包为可执行的jar或war文件。
+可以将所有依赖项打包到生成的jar或war文件中，从而使您的应用程序更加独立和可移植。
+
+9.Spring Boot 热部署方式？
+Spring DevTools：当修改代码后，应用程序会自动重新加载。
+JRebel：可以实时更新代码和资源，无需重启应用程序。它能够在运行时修改类文件
+Spring Loaded：当修改类文件后，Spring Loaded 会自动重新加载类，以便开发者能够立即看到修改的效果。
+Docker + 文件挂载：使用 Docker 部署应用程序时，可以将应用程序的代码和资源文件挂载到容器中，实现实时更新代码而无需重启容器。
+
+10.bootstrap和application的区别？
+bootstrap配置文件比application配置文件优先加载，bootstrap是由Spring父上下文（父ApplicationContext）加载，application是由Spring子上下文加载。
+bootstrap里的属性不能被覆盖，如果bootstrap和application两种类型的文件同时存在，是以bootstrap配置文件为主
+bootstrap主要用于配置系统级别的一些参数一些固定的，不能被覆盖的参数，当你使用了Spring Cloud Config配置中心时，这时需要在boostrap配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息。
+application用于配置一些应用级别的参数第三方数据源的配置rabbitmq,redis的配置。
+
+11.SpringBoot是如何实现main方法启动Web项目的?
+自动配置：SpringBoot会根据添加的依赖自动配置项目。例如，如果你在项目的pom.xml或build.gradle文件中添加了spring-boot-starter-web依赖，SpringBoot会自动配置与Web相关的组件，如DispatcherServlet、嵌入式Servlet容器（如Tomcat、Jetty等）等。
+嵌入式Servlet容器：SpringBoot集成了嵌入式Servlet容器，这意味着你不需要将应用部署到外部的Servlet容器中，如Tomcat或Jetty。相反，你可以直接在应用中嵌入这些容器，并通过main方法启动它们。这是通过引入相应的starter依赖（如spring-boot-starter-tomcat）来实现的。
+SpringApplication.run()方法：在main方法中，我们通过调用SpringApplication.run()方法来启动SpringBoot应用。这个方法会负责创建和初始化Spring上下文，配置嵌入式Servlet容器，并启动它。此外，它还会触发Spring的生命周期事件，使得各种自动配置的组件能够按照预期工作。
+
+12.@SpringBootApplication 注解的作用是什么？
+@SpringBootApplication注解：这个注解是SpringBoot的核心，它实际上是一个复合注解，包括了@Configuration、@EnableAutoConfiguration和@ComponentScan。这个注解告诉SpringBoot这是一个应用类，需要自动配置和扫描组件。
+
+13.Spring Boot 是否可以使用 XML 配置 ?
+可以，@ImportResource(locations={"classpath:application-bean.xml"})
+
+14.SpringBoot 最大连接数及最大并发数是多少？
+在SpringBoot2.7.10版本中内置Tomcat版本是9.0.73，SpringBoot内置Tomcat的默认设置如下：
+Tomcat的最大连接数，默认是8192，Tomcat的最大线程数，默认是200，Tomcat的连接超时时间，默认是20s。
+
+15.SpringBoot处理跨域请求的方法?
+@CrossOrigin注解。
+配置通过实现WebMvcConfigurer接口，重写addCorsMappings方法。
+创建一个配置类，实现Filter接口，重写doFIlter方法。
+在application.properties或application.yml中添加全局配置项
+
+16.SpringBoot实现定时任务?
+使用@Scheduled注解。@Scheduled注解用于指定方法或者类的某个方法为定时任务, 它可以使用cron表达式或者固定的时延来定义任务的执行时间。
+通过实现SchedulingConfigurer接口，重写configureTasks方法，可以配置多个定时任务，并指定其执行时间。
+使用@Async注解和@Scheduled和ThreadPoolTaskScheduler, 通过在定时任务方法上添加@Async注解，同时配合使用ThreadPoolTaskScheduler来配置线程池，实现多线程定时任务的异步执行。
+
+17.@Conditional？
+@Conditional注解是一个条件装配注解，主要用于限制@Bean注解在什么时候才生效。按需创建bean。
+
+18.如何在 SpringBoot 启动时执行特定代码？有哪些方式？
+使用@PostConstruct注解标注的方法：在你的组件中，你可以使用@PostConstruct注解来标注一个方法，这个方法会在类的构造函数调用之后、字段注入之后执行。
+实现CommandLineRunner或ApplicationRunner接口：你可以实现CommandLineRunner或ApplicationRunner接口，并重写run方法。Spring Boot会在启动时调用这个方法。
+--------------------------------------------------------------------------------------------
+《mybatis》
+1.resultType与resultMap的区别？
+resultType是实体类，resultMap将数据库查出来的字段封装的一个任意的对象中。
+
+2.动态sql?
+<where><if test="supCode!=null">and supCode like #{supCode}</if></where>
+
+3.#{name} 或 ${name} 的区别？
+#{} : 对读取到的参数先使用?来占位，然后去预编译SQL，最后再将?替换为形参值。
+${} : 直接替换读取到的形参值，没有预编译的过程。有sql注入风险。
+
+4.通常一个 Xml 映射文件，都会写一个 Dao 接口与之对应，请问，这个 Dao 接口的工作原理是什么？
+Dao接口即Mapper接口。接口的全限名，就是映射文件中的namespace的值；接口的方法名，就是映射文件中Mapper的Statement的id值；接口方法内的参数，就是传递给sql的参数。
+Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MapperStatement。
+Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
+
+5.Mybatis是如何进行分页的？
+分页插件通过拦截 MyBatis 执行的 SQL 语句，在执行查询前自动添加分页参数，开发者只需配置插件并调用分页方法，无需手动编写分页 SQL。
+引入依赖，配置PageInterceptor的bean,在代码中调用startPage方法。
+
+6.MyBatis 如何获取自增主键的？
+使用usegeneratedkeys=”true” keyproperty=”id”属性
+
+7.延迟加载
+使用延迟加载方法，先去查询简单的sql（最好单表，也可以关联查询），再去按需要加载关联查询的其它信息。
+resultMap标签里面嵌套使用association、collection实现一对一及一对多的映射。
+--------------------------------------------------------------------------------------------
+《mysql》
+
+--------------------------------------------------------------------------------------------
+《redis》
+
